@@ -26,6 +26,22 @@ app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
 });
 
+const NODE_ENV = process.env.NODE_ENV;
+let dbUri = "";
+
+if (NODE_ENV === "production")
+  dbUri = `mongodb+srv://lukasz:${process.env.DB_PASS}@cluster0.sjmpwid.mongodb.net/AdsAppDB?retryWrites=true&w=majority`;
+else dbUri = "mongodb://localhost:27017/AdsAppDB";
+
+mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+
+db.once("open", () => {
+  console.log("Connected to the database");
+});
+
+db.on("error", (err) => console.log("Error " + err));
+
 const server = app.listen(process.env.PORT || 8000, () => {
   console.log("Server is running on port: 8000");
 });
