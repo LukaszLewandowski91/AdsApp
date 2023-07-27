@@ -1,8 +1,8 @@
 const Ad = require("../models/ad.model");
-
+const User = require("../models/user.model");
 exports.getAllAds = async (req, res) => {
   try {
-    const ads = await Ad.find().populate("user");
+    const ads = await Ad.find().populate({ path: "userId", select: "login" });
     res.json(ads);
   } catch (err) {
     res.status(500).json({ message: err });
@@ -11,7 +11,10 @@ exports.getAllAds = async (req, res) => {
 
 exports.getAdById = async (req, res) => {
   try {
-    const ad = await Ad.findById(req.params.id);
+    const ad = await Ad.findById(req.params.id).populate({
+      path: "userId",
+      select: "login",
+    });
     if (!ad) res.status(404).json({ message: "Not found" });
     else res.json(ad);
   } catch (err) {
@@ -43,7 +46,7 @@ exports.updateAd = async (req, res) => {
   const { title, description, publishDate, image, price, location, userId } =
     req.body;
   try {
-    const ad = Ad.findById(req.params.id);
+    const ad = await Ad.findById(req.params.id);
     if (ad) {
       (ad.title = title),
         (ad.description = description),
@@ -64,7 +67,7 @@ exports.updateAd = async (req, res) => {
 
 exports.deleteAd = async (req, res) => {
   try {
-    const ad = Ad.findById(req.params.id);
+    const ad = await Ad.findById(req.params.id);
     if (ad) {
       await Ad.deleteOne({ _id: req.params.id });
       res.json({ message: "Ok" });
