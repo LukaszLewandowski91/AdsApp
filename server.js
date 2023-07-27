@@ -4,17 +4,20 @@ const cors = require("cors");
 const socket = require("socket.io");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
+const adsRoutes = require("./routes/ads.routes");
 
 const app = express();
 
 app.use(helmet());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 app.use((req, res, next) => {
   req.io = io;
   next();
 });
+app.use("/api", adsRoutes);
 
 app.use(express.static(path.join(__dirname, "/client/build")));
 
