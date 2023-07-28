@@ -22,6 +22,18 @@ exports.getAdById = async (req, res) => {
   }
 };
 
+exports.getBySearchPhrase = async (req, res) => {
+  try {
+    const ads = await Ad.find({
+      title: { $regex: `(?i)${req.params.searchPhrase}(?-i)` },
+    }).populate({ path: "userId", select: "login" });
+    if (!ads) res.status(404).json({ message: "Not found" });
+    else res.json(ads);
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+};
+
 exports.addNewAd = async (req, res) => {
   try {
     const { title, description, publishDate, image, price, location, userId } =
