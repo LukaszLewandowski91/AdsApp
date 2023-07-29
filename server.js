@@ -5,6 +5,7 @@ const socket = require("socket.io");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
 const adsRoutes = require("./routes/ads.routes");
+const usersRoutes = require("./routes/users.routes");
 
 const app = express();
 
@@ -18,7 +19,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use("/api", adsRoutes);
-
+app.use("/auth", usersRoutes);
 app.use(express.static(path.join(__dirname, "/client/build")));
 
 app.get("*", (req, res) => {
