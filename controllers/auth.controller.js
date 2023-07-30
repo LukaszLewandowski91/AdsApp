@@ -51,6 +51,7 @@ exports.login = async (req, res) => {
         res.status(400).json({ message: "Login or password are incorrect" });
       } else {
         if (bcrypt.compareSync(password, user.password)) {
+          req.session.login = user.login;
           res.status(200).json({ message: "Login successful" });
         } else {
           res.status(400).json({ message: "Login or password are incorrect" });
@@ -60,4 +61,12 @@ exports.login = async (req, res) => {
       res.status(400).json({ message: "Bad request" });
     }
   } catch (err) {}
+};
+
+exports.getUser = async (req, res) => {
+  if (req.session.login) {
+    res.json({ message: `Login ${req.session.login}` });
+  } else {
+    res.status(401).json({ message: "You are not authorized" });
+  }
 };
