@@ -1,5 +1,7 @@
 const Ad = require("../models/ad.model");
 const User = require("../models/user.model");
+const getImageFileType = require("../utils/getImageFileType");
+const fs = require("fs");
 exports.getAllAds = async (req, res) => {
   try {
     const ads = await Ad.find().populate({ path: "userId", select: "login" });
@@ -36,19 +38,38 @@ exports.getBySearchPhrase = async (req, res) => {
 
 exports.addNewAd = async (req, res) => {
   try {
-    const { title, description, publishDate, image, price, location } =
-      req.body;
-    const newAds = new Ad({
-      title: title,
-      description: description,
-      publishDate: publishDate,
-      image: image,
-      price: price,
-      location: location,
-      userId: req.session.user.id,
-    });
-    await newAds.save();
-    res.json({ message: "OK" });
+    const { title, description, publishDate, price, location } = req.body;
+    const fileType = req.file ? await getImageFileType(req.file) : "unknown";
+
+    if (
+      title &&
+      typeof title === "string" &&
+      description &&
+      typeof description === "string" &&
+      publishDate &&
+      typeof publishDate === "string" &&
+      price &&
+      typeof price === "string" &&
+      location &&
+      typeof location === "string" &&
+      req.file &&
+      ["image/png", "image/jpeg", "image/gif"].includes(fileType)
+    ) {
+      const newAds = new Ad({
+        title: title,
+        description: description,
+        publishDate: publishDate,
+        price: price,
+        image: req.file.filename,
+        location: location,
+        userId: req.session.user.id,
+      });
+      await newAds.save();
+      res.json({ message: "OK" });
+    } else {
+      fs.unlinkSync(`./public/uploads/${req.file.filename}`);
+      res.status(500).json({ message: "Bad request" });
+    }
   } catch (err) {
     res.status(500).json({ message: err });
   }
