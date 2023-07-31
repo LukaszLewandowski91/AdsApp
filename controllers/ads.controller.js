@@ -36,7 +36,7 @@ exports.getBySearchPhrase = async (req, res) => {
 
 exports.addNewAd = async (req, res) => {
   try {
-    const { title, description, publishDate, image, price, location, userId } =
+    const { title, description, publishDate, image, price, location } =
       req.body;
     const newAds = new Ad({
       title: title,
@@ -45,7 +45,7 @@ exports.addNewAd = async (req, res) => {
       image: image,
       price: price,
       location: location,
-      userId: userId,
+      userId: req.session.user.id,
     });
     await newAds.save();
     res.json({ message: "OK" });
@@ -55,22 +55,26 @@ exports.addNewAd = async (req, res) => {
 };
 
 exports.updateAd = async (req, res) => {
-  const { title, description, publishDate, image, price, location, userId } =
-    req.body;
+  const { title, description, publishDate, image, price, location } = req.body;
   try {
     const ad = await Ad.findById(req.params.id);
-    if (ad) {
-      (ad.title = title),
-        (ad.description = description),
-        (ad.publishDate = publishDate),
-        (ad.image = image),
-        (ad.price = price),
-        (ad.location = location),
-        (ad.userId = userId);
-      await ad.save();
-      res.json({ message: "Ok" });
+    if (ad.userId === req.session.user.id) {
+      if (ad) {
+        (ad.title = title),
+          (ad.description = description),
+          (ad.publishDate = publishDate),
+          (ad.image = image),
+          (ad.price = price),
+          (ad.location = location),
+          await ad.save();
+        res.json({ message: "Ok" });
+      } else {
+        res.status(404).json({ message: "Not found" });
+      }
     } else {
-      res.status(404).json({ message: "Not found" });
+      res
+        .status(401)
+        .json({ message: "You do not have access to edit this ad" });
     }
   } catch (err) {
     res.status(500).json({ message: err });
@@ -80,11 +84,17 @@ exports.updateAd = async (req, res) => {
 exports.deleteAd = async (req, res) => {
   try {
     const ad = await Ad.findById(req.params.id);
-    if (ad) {
-      await Ad.deleteOne({ _id: req.params.id });
-      res.json({ message: "Ok" });
+    if (ad.userId === req.session.user.id) {
+      if (ad) {
+        await Ad.deleteOne({ _id: req.params.id });
+        res.json({ message: "Ok" });
+      } else {
+        res.status(404).json({ message: "Not found" });
+      }
     } else {
-      res.status(404).json({ message: "Not found" });
+      res
+        .status(401)
+        .json({ message: "You do not have access to delete this ad" });
     }
   } catch (err) {
     res.status(500).json({ message: err });
