@@ -29,15 +29,25 @@ io.on("connection", (socket) => {
 connectToDB().then(() => {
   // add middleware
   app.use(helmet());
-  app.use(cors());
+  if (process.env.NODE_ENV !== "production") {
+    app.use(
+      cors({
+        origin: ["http://localhost:3000"],
+        credentials: true,
+      })
+    );
+  }
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
   app.use(
     session({
-      secret: "xyz567",
+      secret: process.env.SECRET,
       store: MongoStore.create(mongoose.connection),
       resave: false,
       saveUninitialized: false,
+      cookie: {
+        secure: process.env.NODE_ENV == "production",
+      },
     })
   );
 
