@@ -76,21 +76,39 @@ exports.addNewAd = async (req, res) => {
 };
 
 exports.updateAd = async (req, res) => {
-  const { title, description, publishDate, image, price, location } = req.body;
+  const { title, description, publishDate, price, location } = req.body;
+
   try {
     const ad = await Ad.findById(req.params.id);
     if (ad.userId === req.session.user.id) {
-      if (ad) {
-        (ad.title = title),
-          (ad.description = description),
-          (ad.publishDate = publishDate),
-          (ad.image = image),
-          (ad.price = price),
-          (ad.location = location),
-          await ad.save();
-        res.json({ message: "Ok" });
+      if (req.file) {
+        const fileType = await getImageFileType(req.file);
+        if (ad && ["image/png", "image/jpeg", "image/gif"].includes(fileType)) {
+          fs.unlinkSync(`./public/uploads/${ad.image}`),
+            (ad.title = title),
+            (ad.description = description),
+            (ad.publishDate = publishDate),
+            (ad.image = req.file.filename),
+            (ad.price = price),
+            (ad.location = location),
+            await ad.save();
+
+          res.json({ message: "Ok" });
+        } else {
+          res.status(404).json({ message: "Not found" });
+        }
       } else {
-        res.status(404).json({ message: "Not found" });
+        if (ad) {
+          (ad.title = title),
+            (ad.description = description),
+            (ad.publishDate = publishDate),
+            (ad.price = price),
+            (ad.location = location),
+            await ad.save();
+          res.json({ message: "Ok" });
+        } else {
+          res.status(404).json({ message: "Not found" });
+        }
       }
     } else {
       res
@@ -107,6 +125,7 @@ exports.deleteAd = async (req, res) => {
     const ad = await Ad.findById(req.params.id);
     if (ad.userId === req.session.user.id) {
       if (ad) {
+        fs.unlinkSync(`./public/uploads/${ad.image}`);
         await Ad.deleteOne({ _id: req.params.id });
         res.json({ message: "Ok" });
       } else {
