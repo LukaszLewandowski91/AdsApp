@@ -62,7 +62,7 @@ connectToDB().then(() => {
 
   // serve the static files from the React app
   app.use(express.static(path.join(__dirname, "/client/build")));
-
+  app.use(express.static(path.join(__dirname, "/public")));
   // at any other link, just serve React app
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "/client/build/index.html"));
