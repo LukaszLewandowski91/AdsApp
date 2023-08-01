@@ -6,8 +6,8 @@ import { Provider } from "react-redux";
 import App from "./App";
 import store from "./redux/store";
 
-import "./styles/global.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./styles/global.scss";
 
 const Root = () => (
   <Provider store={store}>
