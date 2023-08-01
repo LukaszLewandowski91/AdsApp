@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_URL } from "../config";
 /* SELECTORS */
 export const getAds = ({ ads }) => ads.data;
-export const getRequest = ({ ads }) => ads.request;
+export const getRequest = ({ ads }) => ads.requests;
 
 /* ACTIONS */
 const reducerName = "ads";
@@ -37,6 +37,19 @@ export const loadAdsRequest = () => {
   };
 };
 
+export const addAdRequest = (ad) => {
+  return async (dispatch) => {
+    dispatch(startRequest({ name: "ADD_AD" }));
+    try {
+      let res = await axios.post(`${API_URL}/ads`, ad);
+      dispatch(addAd(res));
+      dispatch(endRequest({ name: "ADD_AD" }));
+    } catch (e) {
+      dispatch(errorRequest({ name: "ADD_AD", error: e.message }));
+    }
+  };
+};
+
 /* INITIAL STATE */
 
 const initialState = {
@@ -45,3 +58,42 @@ const initialState = {
 };
 
 /* REDUCER */
+
+export default function reducer(statePart = initialState, action = {}) {
+  switch (action.type) {
+    case LOAD_ADS:
+      return { ...statePart, data: [...action.payload] };
+    case ADD_AD:
+      return { ...statePart, data: [...statePart.data, action.payload] };
+    case START_REQUEST:
+      return {
+        ...statePart,
+        requests: {
+          ...statePart.requests,
+          [action.payload.name]: { pending: true, error: null, success: false },
+        },
+      };
+    case END_REQUEST:
+      return {
+        ...statePart,
+        requests: {
+          ...statePart.requests,
+          [action.payload.name]: { pending: false, error: null, success: true },
+        },
+      };
+    case ERROR_REQUEST:
+      return {
+        ...statePart,
+        requests: {
+          ...statePart.requests,
+          [action.payload.name]: {
+            pending: false,
+            error: action.payload.error,
+            success: false,
+          },
+        },
+      };
+    default:
+      return statePart;
+  }
+}
