@@ -1,18 +1,17 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import App from "./App";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/global.scss";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import { Router } from "express";
+import { BrowserRouter as Router } from "react-router-dom";
 
-const Root = () => {
+const Root = () => (
   <Provider store={store}>
     <Router>
       <App />
     </Router>
-  </Provider>;
-};
+  </Provider>
+);
 
 ReactDOM.render(<Root />, document.getElementById("root"));
