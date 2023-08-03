@@ -1,3 +1,6 @@
+import axios from "axios";
+import { API_URL } from "../config";
+
 export const getUser = ({ user }) => user;
 const reducerName = "users";
 const createActionName = (name) => `app/${reducerName}/${name}`;
@@ -8,6 +11,19 @@ export const logIn = (payload) => ({ type: LOG_IN, payload });
 export const logOut = () => ({
   type: LOG_OUT,
 });
+
+export const loadLoggedUser = () => {
+  return async (dispatch) => {
+    try {
+      let res = await axios.get(`${API_URL}auth/user`, {
+        withCredentials: true,
+      });
+      dispatch(logIn({ login: res.data.login }));
+    } catch (e) {
+      console.log("error ", e);
+    }
+  };
+};
 
 const usersReducer = (statePart = null, action) => {
   switch (action.type) {

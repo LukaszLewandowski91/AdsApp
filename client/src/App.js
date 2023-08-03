@@ -4,8 +4,15 @@ import { Routes, Route } from "react-router-dom";
 import Register from "./components/pages/Register/Register";
 import Login from "./components/pages/Login/Login";
 import Logout from "./components/pages/Logout/Logout";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { loadLoggedUser } from "./redux/usersRedux";
 
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadLoggedUser());
+  }, [dispatch]);
   return (
     <MainLayout>
       <Routes>
