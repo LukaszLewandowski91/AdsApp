@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_URL } from "../config";
 /* SELECTORS */
 export const getAds = ({ ads }) => ads;
-
+export const getAdById = ({ ads }, id) => ads.find((ad) => ad._id === id);
 /* ACTIONS */
 const reducerName = "ads";
 const createActionName = (name) => `app/${reducerName}/${name}`;
