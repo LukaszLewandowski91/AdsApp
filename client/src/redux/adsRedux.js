@@ -52,15 +52,3 @@ const adsReducer = (statePart = [], action) => {
 };
 
 export default adsReducer;
-
-// export default function reducer(statePart = [], action) {
-//   switch (action.type) {
-//     case LOAD_ADS:
-//       return { ...statePart, data: [...action.payload] };
-
-//     case ADD_AD:
-//       return { ...statePart, data: [...statePart.data, action.payload] };
-//     default:
-//       return statePart;
-//   }
-// }
