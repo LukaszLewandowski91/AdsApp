@@ -1,8 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getAds, getRequest, loadAdsRequest } from "../../../redux/adsRedux";
+import { getAds, loadAdsRequest } from "../../../redux/adsRedux";
 import { useEffect } from "react";
 import { Spinner, Alert } from "react-bootstrap";
 import Ads from "../Ads/Ads";
+import { API_URL } from "../../../config";
+
 const AdsBoard = () => {
   const dispatch = useDispatch();
   const ads = useSelector(getAds);
@@ -20,12 +22,12 @@ const AdsBoard = () => {
       />
     );
   }
-  {
-    ads.length === 0 && <Alert variant="warning">No Ads</Alert>;
-  }
-  {
-    ads && ads.length > 0 && <Alert variant="success">OK</Alert>;
-  }
+  // {
+  //   ads.length === 0 && <Alert variant="warning">No Ads</Alert>;
+  // }
+  // {
+  //   ads && ads.length > 0 && <Alert variant="success">OK</Alert>;
+  // }
 };
 
 export default AdsBoard;

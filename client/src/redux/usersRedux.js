@@ -1,3 +1,4 @@
+export const getUser = ({ user }) => user;
 const reducerName = "users";
 const createActionName = (name) => `app/${reducerName}/${name}`;
 const LOG_IN = createActionName("LOG_IN");

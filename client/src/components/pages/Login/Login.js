@@ -18,6 +18,7 @@ const Login = () => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({ login, password }),
     };
     setStatus("loading");
@@ -26,6 +27,7 @@ const Login = () => {
         if (res.status === 200) {
           setStatus("success");
           dispatch(logIn({ login }));
+
           setTimeout(() => {
             navigate("/");
           }, 2000);
