@@ -1,7 +1,7 @@
 import axios from "axios";
 import { API_URL } from "../config";
 /* SELECTORS */
-export const getAds = ({ ads }) => ads.data;
+export const getAds = ({ ads }) => ads;
 
 /* ACTIONS */
 const reducerName = "ads";
@@ -38,22 +38,29 @@ export const addAdRequest = (ad) => {
   };
 };
 
-/* INITIAL STATE */
-
-const initialState = {
-  ads: [],
-};
-
 /* REDUCER */
 
-export default function reducer(statePart = initialState, action = {}) {
+const adsReducer = (statePart = [], action) => {
   switch (action.type) {
-    case LOAD_ADS:
-      return { ...statePart, data: [...action.payload] };
-
     case ADD_AD:
-      return { ...statePart, data: [...statePart.data, action.payload] };
+      return [...statePart, { ...action.payload }];
+    case LOAD_ADS:
+      return [...action.payload];
     default:
       return statePart;
   }
-}
+};
+
+export default adsReducer;
+
+// export default function reducer(statePart = [], action) {
+//   switch (action.type) {
+//     case LOAD_ADS:
+//       return { ...statePart, data: [...action.payload] };
+
+//     case ADD_AD:
+//       return { ...statePart, data: [...statePart.data, action.payload] };
+//     default:
+//       return statePart;
+//   }
+// }
