@@ -79,5 +79,5 @@ exports.logout = async (req, res) => {
 };
 
 exports.getUser = async (req, res) => {
-  res.json({ message: req.session.user });
+  res.send(req.session.user);
 };
