@@ -49,7 +49,7 @@ export const editAdRequest = (ad, id) => {
       await axios.put(`${API_URL}api/ads/${id}`, ad, {
         withCredentials: true,
       });
-      dispatch(editAd(ad));
+      dispatch(loadAdsRequest());
     } catch (e) {
       console.log(e);
     }
