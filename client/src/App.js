@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { loadLoggedUser } from "./redux/usersRedux";
 import AdDetails from "./components/features/AdDetails/AdDetails";
+import EditAd from "./components/pages/EditAd/EditAd";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/ads/:id" element={<AdDetails />} />
+        <Route path="/edit/:id" element={<EditAd />} />
       </Routes>
     </MainLayout>
   );
