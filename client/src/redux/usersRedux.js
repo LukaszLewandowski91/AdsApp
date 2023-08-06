@@ -18,7 +18,7 @@ export const loadLoggedUser = () => {
       let res = await axios.get(`${API_URL}auth/user`, {
         withCredentials: true,
       });
-      dispatch(logIn({ login: res.data.login, id: res.data.id }));
+      dispatch(logIn({ login: res.data.login }));
     } catch (e) {
       console.log("error ", e);
     }

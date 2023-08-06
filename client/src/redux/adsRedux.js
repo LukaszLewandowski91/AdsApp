@@ -9,10 +9,11 @@ const createActionName = (name) => `app/${reducerName}/${name}`;
 
 const LOAD_ADS = createActionName("LOAD_ADS");
 const ADD_AD = createActionName("ADD_AD");
+const REMOVE_AD = createActionName("REMOVE_AD");
 
 export const loadAds = (payload) => ({ type: LOAD_ADS, payload });
 export const addAd = (payload) => ({ type: ADD_AD, payload });
-
+export const removeAd = (payload) => ({ type: REMOVE_AD, payload });
 /* THUNKS */
 
 export const loadAdsRequest = () => {
@@ -46,6 +47,8 @@ const adsReducer = (statePart = [], action) => {
       return [...statePart, { ...action.payload }];
     case LOAD_ADS:
       return [...action.payload];
+    case REMOVE_AD:
+      return [...statePart.filter((ad) => ad._id !== action.payload)];
     default:
       return statePart;
   }
