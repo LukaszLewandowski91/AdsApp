@@ -4,7 +4,10 @@ const getImageFileType = require("../utils/getImageFileType");
 const fs = require("fs");
 exports.getAllAds = async (req, res) => {
   try {
-    const ads = await Ad.find().populate({ path: "userId", select: "login" });
+    const ads = await Ad.find().populate({
+      path: "userId",
+      select: ["login", "avatar", "phoneNumber"],
+    });
     res.json(ads);
   } catch (err) {
     res.status(500).json({ message: err });
@@ -15,7 +18,7 @@ exports.getAdById = async (req, res) => {
   try {
     const ad = await Ad.findById(req.params.id).populate({
       path: "userId",
-      select: "login",
+      select: ["login", "avatar", "phoneNumber"],
     });
     if (!ad) res.status(404).json({ message: "Not found" });
     else res.json(ad);
