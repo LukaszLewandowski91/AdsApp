@@ -32,11 +32,10 @@ export const loadAdsRequest = () => {
 export const addAdRequest = (ad) => {
   return async (dispatch) => {
     try {
-      let res = await axios.post(`${API_URL}api/ads`, ad, {
+      await axios.post(`${API_URL}api/ads`, ad, {
         withCredentials: true,
       });
-      dispatch(addAd(res));
-      console.log("res", res);
+      dispatch(loadAdsRequest());
     } catch (e) {
       console.log(e);
     }
