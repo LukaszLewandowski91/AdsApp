@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { getAdById, removeAd, removeAdRequest } from "../../../redux/adsRedux";
+import { getAdById, removeAdRequest } from "../../../redux/adsRedux";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Container,
@@ -11,7 +11,7 @@ import {
   FloatingLabel,
   Button,
 } from "react-bootstrap";
-import { API_URL, IMGS_URL } from "../../../config";
+import { IMGS_URL } from "../../../config";
 import styles from "./AdDetails.module.scss";
 import { Link } from "react-router-dom";
 import { getUser } from "../../../redux/usersRedux";
@@ -23,18 +23,9 @@ const AdDetails = () => {
   const user = useSelector(getUser);
   const adData = useSelector((state) => getAdById(state, id));
 
-  const handleSubmit = async () => {
-    const options = {
-      method: "DELETE",
-      credentials: "include",
-    };
-
-    await fetch(`${API_URL}api/ads/${id}`, options).then((res) => {
-      if (res.status === 200) {
-        navigate("/");
-        dispatch(removeAd(id));
-      }
-    });
+  const handleSubmit = (id) => {
+    dispatch(removeAdRequest(id));
+    navigate("/");
   };
   return (
     <Container className="mt-5">
@@ -149,7 +140,7 @@ const AdDetails = () => {
                 <Button
                   variant="outline-danger"
                   className={styles.button}
-                  onClick={() => handleSubmit()}
+                  onClick={() => handleSubmit(id)}
                 >
                   Delete
                 </Button>
