@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { loadLoggedUser } from "./redux/usersRedux";
 import AdDetails from "./components/features/AdDetails/AdDetails";
 import EditAd from "./components/pages/EditAd/EditAd";
+import NewAd from "./components/pages/NewAd/NewAd";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const App = () => {
         <Route path="/logout" element={<Logout />} />
         <Route path="/ads/:id" element={<AdDetails />} />
         <Route path="/edit/:id" element={<EditAd />} />
+        <Route path="/add" element={<NewAd />} />
       </Routes>
     </MainLayout>
   );
