@@ -1,19 +1,25 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getAds, loadAdsRequest } from "../../../redux/adsRedux";
-import { useEffect } from "react";
+import { getAds, loadAds, loadAdsRequest } from "../../../redux/adsRedux";
+import { useEffect, useState } from "react";
 import { Spinner, Container, Row, Button } from "react-bootstrap";
 import AdCard from "../AdCard/AdCard";
 import { Link } from "react-router-dom";
 import { getUser } from "../../../redux/usersRedux";
 import SearchForm from "../SearchForm/SearchForm";
-
+import io from "socket.io-client";
 const AdsBoard = () => {
   const dispatch = useDispatch();
+  const [socket, setSocket] = useState("");
   const ads = useSelector(getAds);
   const user = useSelector(getUser);
 
   useEffect(() => {
+    const newSocket = io(
+      process.env.NODE_ENV === "production" ? "/" : "http://localhost:8000/"
+    );
     dispatch(loadAdsRequest());
+    newSocket.on("adsUpdated", (state) => dispatch(loadAds(state)));
+    setSocket(newSocket);
   }, [dispatch]);
 
   return (
