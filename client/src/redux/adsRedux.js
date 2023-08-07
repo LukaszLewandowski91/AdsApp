@@ -20,8 +20,23 @@ export const editAd = (payload) => ({ type: EDIT_AD, payload });
 
 export const loadAdsRequest = () => {
   return async (dispatch) => {
+    dispatch(loadAds(""));
     try {
       let res = await axios.get(`${API_URL}api/ads`);
+      dispatch(loadAds(res.data));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const loadSearchedAdsRequest = (searchPhrase) => {
+  return async (dispatch) => {
+    dispatch(loadAds(""));
+    try {
+      let res = await axios.get(`${API_URL}api/ads/search/${searchPhrase}`, {
+        withCredentials: true,
+      });
       dispatch(loadAds(res.data));
     } catch (e) {
       console.log(e);

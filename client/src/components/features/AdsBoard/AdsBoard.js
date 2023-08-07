@@ -25,7 +25,7 @@ const AdsBoard = () => {
             <Button variant="primary">Add advertisement</Button>
           </Link>
         )}
-        {!ads && (
+        {ads.length === 0 && (
           <Spinner
             animation="border"
             variant="primary"

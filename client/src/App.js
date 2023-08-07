@@ -10,6 +10,7 @@ import { loadLoggedUser } from "./redux/usersRedux";
 import AdDetails from "./components/features/AdDetails/AdDetails";
 import EditAd from "./components/pages/EditAd/EditAd";
 import NewAd from "./components/pages/NewAd/NewAd";
+import SearchPage from "./components/pages/SearchPage/SearchPage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="/ads/:id" element={<AdDetails />} />
         <Route path="/edit/:id" element={<EditAd />} />
         <Route path="/add" element={<NewAd />} />
+        <Route path="/search/:searchPhrase" element={<SearchPage />} />
       </Routes>
     </MainLayout>
   );
