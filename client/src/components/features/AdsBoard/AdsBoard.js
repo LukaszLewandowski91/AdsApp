@@ -5,6 +5,7 @@ import { Spinner, Container, Row, Button } from "react-bootstrap";
 import AdCard from "../AdCard/AdCard";
 import { Link } from "react-router-dom";
 import { getUser } from "../../../redux/usersRedux";
+import SearchForm from "../SearchForm/SearchForm";
 
 const AdsBoard = () => {
   const dispatch = useDispatch();
@@ -17,7 +18,8 @@ const AdsBoard = () => {
 
   return (
     <Container>
-      <Row>
+      <SearchForm />
+      <Row className="mt-3">
         {user && (
           <Link to="/add" className="mb-4">
             <Button variant="primary">Add advertisement</Button>
