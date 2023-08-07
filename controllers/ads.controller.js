@@ -69,7 +69,13 @@ exports.addNewAd = async (req, res) => {
       });
       await newAds.save();
       res.json({ message: "OK" });
-      req.io.emit("adsUpdated", await Ad.find());
+      req.io.emit(
+        "adsUpdated",
+        await Ad.find().populate({
+          path: "userId",
+          select: ["login", "avatar", "phoneNumber"],
+        })
+      );
     } else {
       fs.unlinkSync(`./public/uploads/${req.file.filename}`);
       res.status(500).json({ message: "Bad request" });
@@ -98,7 +104,13 @@ exports.updateAd = async (req, res) => {
             await ad.save();
 
           res.json({ message: "Ok" });
-          req.io.emit("adsUpdated", await Ad.find());
+          req.io.emit(
+            "adsUpdated",
+            await Ad.find().populate({
+              path: "userId",
+              select: ["login", "avatar", "phoneNumber"],
+            })
+          );
         } else {
           res.status(404).json({ message: "Not found" });
         }
@@ -111,7 +123,13 @@ exports.updateAd = async (req, res) => {
             (ad.location = location),
             await ad.save();
           res.json({ message: "Ok" });
-          req.io.emit("adsUpdated", await Ad.find());
+          req.io.emit(
+            "adsUpdated",
+            await Ad.find().populate({
+              path: "userId",
+              select: ["login", "avatar", "phoneNumber"],
+            })
+          );
         } else {
           res.status(404).json({ message: "Not found" });
         }
@@ -134,7 +152,13 @@ exports.deleteAd = async (req, res) => {
         fs.unlinkSync(`./public/uploads/${ad.image}`);
         await Ad.deleteOne({ _id: req.params.id });
         res.json({ message: "Ok" });
-        req.io.emit("adsUpdated", await Ad.find());
+        req.io.emit(
+          "adsUpdated",
+          await Ad.find().populate({
+            path: "userId",
+            select: ["login", "avatar", "phoneNumber"],
+          })
+        );
       } else {
         res.status(404).json({ message: "Not found" });
       }
