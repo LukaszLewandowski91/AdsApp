@@ -1,12 +1,22 @@
 import { Container, Row } from "react-bootstrap";
 import AdForm from "../../features/AdForm/AdForm";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addAdRequest } from "../../../redux/adsRedux";
 import styles from "./NewAd.module.scss";
+import { getUser } from "../../../redux/usersRedux";
+import { useEffect } from "react";
 const NewAd = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector(getUser);
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, [dispatch]);
+
   const handleSubmit = (ad) => {
     const fd = new FormData();
     fd.append("title", ad.title);

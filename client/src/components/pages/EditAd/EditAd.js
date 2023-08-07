@@ -4,11 +4,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { editAdRequest, getAdById } from "../../../redux/adsRedux";
 import { Container, Row } from "react-bootstrap";
 import styles from "./EditAd.module.scss";
+import { getUser } from "../../../redux/usersRedux";
+import { useEffect } from "react";
 const EditAd = () => {
   const { id } = useParams();
-  const adData = useSelector((state) => getAdById(state, id));
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const adData = useSelector((state) => getAdById(state, id));
+  const user = useSelector(getUser);
+
+  useEffect(() => {
+    if (!user || adData.userId.login !== user.login) {
+      navigate("/");
+    }
+  }, [dispatch]);
+
   const handleSubmit = (ad) => {
     const fd = new FormData();
     fd.append("title", ad.title);
