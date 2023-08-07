@@ -91,19 +91,6 @@ const AdDetails = () => {
           <InputGroup className="mb-2">
             <FloatingLabel
               controlId="floatingInput"
-              label="Seller"
-              className="py-1"
-            >
-              <Form.Control
-                aria-label="Seller"
-                value={adData.userId.login}
-                disabled
-              />
-            </FloatingLabel>
-          </InputGroup>
-          <InputGroup className="mb-2">
-            <FloatingLabel
-              controlId="floatingInput"
               label="Phone"
               className="py-1"
             >
@@ -126,6 +113,16 @@ const AdDetails = () => {
                 disabled
               />
             </FloatingLabel>
+          </InputGroup>
+          <InputGroup className="mb-2">
+            <div className={styles.seller}>
+              <p>{`Seller: ${adData.userId.login}   `}</p>
+              <img
+                src={`${IMGS_URL}${adData.userId.avatar}`}
+                className={styles.seller_avatar}
+                alt={`${adData.userId.avatar}`}
+              />
+            </div>
           </InputGroup>
           {user && user.login === adData.userId.login && (
             <Row>

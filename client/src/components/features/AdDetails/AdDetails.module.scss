@@ -12,3 +12,26 @@
 .button {
   width: 120px;
 }
+
+.seller {
+  display: flex;
+  height: 60px;
+  background-color: #eaecef;
+  width: 100%;
+  border-radius: 5px;
+  align-items: center;
+  padding-left: 10px;
+
+  p {
+    margin-bottom: 0;
+    margin-right: 10px;
+  }
+}
+
+.seller_avatar {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 50%;
+  background-position-y: 5%;
+}
