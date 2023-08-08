@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Form, Button, Alert, Spinner } from "react-bootstrap";
-import { API_AUTH_URL, API_URL } from "../../../config";
+import { API_AUTH_URL } from "../../../config";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../../redux/usersRedux";
 import { useNavigate } from "react-router-dom";

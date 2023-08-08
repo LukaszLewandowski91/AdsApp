@@ -1,5 +1,4 @@
 import axios from "axios";
-import { API_URL } from "../config";
 import { API_AUTH_URL } from "../config";
 
 export const getUser = ({ user }) => user;

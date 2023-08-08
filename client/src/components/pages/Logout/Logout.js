@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { API_AUTH_URL, API_URL } from "../../../config";
+import { API_AUTH_URL } from "../../../config";
 import { logOut } from "../../../redux/usersRedux";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
