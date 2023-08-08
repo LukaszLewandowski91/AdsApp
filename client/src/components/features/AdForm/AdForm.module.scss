@@ -1,0 +1,11 @@
+.image {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-left: 5px;
+}
+
+.imageBox {
+  display: flex;
+}

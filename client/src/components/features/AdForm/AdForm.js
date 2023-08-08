@@ -1,8 +1,8 @@
-import e from "cors";
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-
+import { IMGS_URL } from "../../../config";
+import styles from "./AdForm.module.scss";
 const AdForm = ({ action, ...adData }) => {
   const [title, setTitle] = useState(adData.title || "");
   const [description, setDescription] = useState(adData.description || "");
@@ -16,7 +16,7 @@ const AdForm = ({ action, ...adData }) => {
   const [priceError, setPriceError] = useState(false);
   const [locationError, setLocationError] = useState(false);
   const [imageError, setImageError] = useState(false);
-
+  const [imageChange, setImageChange] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
     setTitleError(!titleError);
@@ -41,7 +41,6 @@ const AdForm = ({ action, ...adData }) => {
       <Form.Group className="mb-3" controlId="title">
         <Form.Label>Title</Form.Label>
         <Form.Control
-          {...register("title", { required: true })}
           value={title}
           type="text"
           placeholder="Enter title"
@@ -111,10 +110,21 @@ const AdForm = ({ action, ...adData }) => {
       </Form.Group>
       <Form.Group className="mb-3" controlId="image">
         <Form.Label>Image</Form.Label>
-        <Form.Control
-          type="file"
-          onChange={(e) => setImage(e.target.files[0])}
-        />
+        <div className={styles.imageBox}>
+          <Form.Control
+            type="file"
+            onChange={(e) => (
+              setImage(e.target.files[0]), setImageChange(true)
+            )}
+          />
+          {image && !imageChange && (
+            <img
+              src={`${IMGS_URL}${image}`}
+              className={styles.image}
+              alt={image}
+            />
+          )}
+        </div>
         {imageError && !image && (
           <small className="d-block form-text text-danger mt-2">
             Image is required
