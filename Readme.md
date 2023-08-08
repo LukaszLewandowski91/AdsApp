@@ -1,1 +1,1 @@
-https://replit.com/@LukaszLewandow3/AdsApp
+https://adsapp.lukaszlewandow3.repl.co/
