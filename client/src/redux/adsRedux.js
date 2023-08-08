@@ -22,7 +22,7 @@ export const loadAdsRequest = () => {
   return async (dispatch) => {
     dispatch(loadAds(""));
     try {
-      let res = await axios.get(`${API_URL}api/ads`);
+      let res = await axios.get(`${API_URL}/ads`);
       dispatch(loadAds(res.data));
     } catch (e) {
       console.log(e);
@@ -34,7 +34,7 @@ export const loadSearchedAdsRequest = (searchPhrase) => {
   return async (dispatch) => {
     dispatch(loadAds(""));
     try {
-      let res = await axios.get(`${API_URL}api/ads/search/${searchPhrase}`, {
+      let res = await axios.get(`${API_URL}/ads/search/${searchPhrase}`, {
         withCredentials: true,
       });
       dispatch(loadAds(res.data));
@@ -47,7 +47,7 @@ export const loadSearchedAdsRequest = (searchPhrase) => {
 export const addAdRequest = (ad) => {
   return async (dispatch) => {
     try {
-      await axios.post(`${API_URL}api/ads`, ad, {
+      await axios.post(`${API_URL}/ads`, ad, {
         withCredentials: true,
       });
       dispatch(loadAdsRequest());
@@ -60,7 +60,7 @@ export const addAdRequest = (ad) => {
 export const editAdRequest = (ad, id) => {
   return async (dispatch) => {
     try {
-      await axios.put(`${API_URL}api/ads/${id}`, ad, {
+      await axios.put(`${API_URL}/ads/${id}`, ad, {
         withCredentials: true,
       });
       dispatch(loadAdsRequest());
@@ -74,7 +74,7 @@ export const removeAdRequest = (id) => {
   return async (dispatch) => {
     try {
       await axios
-        .delete(`${API_URL}api/ads/${id}`, { withCredentials: true })
+        .delete(`${API_URL}/ads/${id}`, { withCredentials: true })
         .then(() => dispatch(removeAd(id)));
     } catch (e) {
       console.log(e);

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Form, Button, Alert, Spinner } from "react-bootstrap";
-import { API_URL } from "../../../config";
+import { API_AUTH_URL, API_URL } from "../../../config";
 const Register = () => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +23,7 @@ const Register = () => {
       body: fd,
     };
     setStatus("loading");
-    fetch(`${API_URL}auth/register`, options).then((res) => {
+    fetch(`${API_AUTH_URL}/register`, options).then((res) => {
       if (res.status === 201) {
         setStatus("success");
       } else if (res.status === 400) {

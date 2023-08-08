@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../config";
+import { API_AUTH_URL } from "../config";
 
 export const getUser = ({ user }) => user;
 const reducerName = "users";
@@ -15,7 +16,7 @@ export const logOut = () => ({
 export const loadLoggedUser = () => {
   return async (dispatch) => {
     try {
-      let res = await axios.get(`${API_URL}auth/user`, {
+      let res = await axios.get(`${API_AUTH_URL}/user`, {
         withCredentials: true,
       });
       dispatch(logIn({ login: res.data.login }));

@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { API_URL } from "../../../config";
+import { API_AUTH_URL, API_URL } from "../../../config";
 import { logOut } from "../../../redux/usersRedux";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ const Logout = () => {
       credentials: "include",
     };
 
-    fetch(`${API_URL}auth/logout`, options).then(() => {
+    fetch(`${API_AUTH_URL}/logout`, options).then(() => {
       dispatch(logOut());
       navigate("/");
     });
